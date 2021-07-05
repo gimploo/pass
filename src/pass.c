@@ -11,11 +11,10 @@ dbg_t debug = {0};
 #include "../lib/str.h"
 #include "../lib/csv.h"
 
-const char* usage = "USAGE: %s file.csv\n\n"
-                    "Flags:\n"
-                    "   --silent        prints only the password to stdout\n\n";
-
-
+const char* usage = 
+"USAGE: %s file.csv\n\n"
+"Flags:\n"
+"   --silent        prints only the password to stdout\n\n";
 
 
 
@@ -35,7 +34,8 @@ void parse_csv_file(CSV *csv, bool flag)
     size_t line_num = csv_get_line_num_of_string_restricted_to_a_header_field(csv, 1, &find);
     if (line_num == 0) return ;
 
-    Row row = csv_get_row_from_line_number(csv, line_num);
+    Row *row = csv_get_row_from_line_number(csv, line_num);
+    assert(row);
 
     Header *header = &csv->header;
     assert(header);
@@ -44,11 +44,11 @@ void parse_csv_file(CSV *csv, bool flag)
     {
         printf("[!] "STR_FMT": \t"STR_FMT"\n", 
                 STR_ARG(header->header[i]), 
-                STR_ARG(row.buffer[i]));
+                STR_ARG(row->buffer[i]));
     }
 
     if (flag == true) {
-        str_print(row.buffer[header->header_count - 1]);
+        str_print(row->buffer[header->header_count - 1]);
         printf("\n");
     }
 }
@@ -82,11 +82,12 @@ int main(int argc, char *argv[])
 
     char *csv_file_path = argv[1];
 
-    str_t csv_file = str_read_file_to_str(csv_file_path);
+    str_t *csv_file = str_read_file_to_str(csv_file_path);
 
-    CSV csv = csv_init(&csv_file);
+    CSV csv = csv_init(csv_file);
 
     parse_csv_file(&csv, flag);
+    /*csv_print_all_entries(&csv);*/
 
 
 

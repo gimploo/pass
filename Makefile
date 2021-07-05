@@ -1,9 +1,9 @@
 CC = gcc
-CCFLAGS = -W -Wall -Wextra -pedantic
+CCFLAGS = -W -Wall -Wextra -pedantic -g
 
 all: pass
 
-debug: CCFLAGS += -g
+debug: CCFLAGS += -DDEBUG
 debug: pass
 
 pass: 
