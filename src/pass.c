@@ -14,8 +14,9 @@ dbg_t debug = {0};
 const char* usage = 
 "USAGE: %s file.csv\n\n"
 "Flags:\n"
-"   --silent        prints only the password to stdout\n\n"
-"   --first         prints all occurance to stdout\n\n";
+"   --silent        prints only the password to stdout\n"
+"   --first         prints all occurance to stdout\n"
+"\n";
 
 
 
