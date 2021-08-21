@@ -12,7 +12,7 @@ dbg_t debug = {0};
 #include "../lib/csv.h"
 
 const char* usage = 
-"USAGE: %s file.csv\n\n"
+"USAGE: %s <CSV_FILE> <FLAGS>\n\n"
 "Flags:\n"
 "   --silent        prints only the password to stdout\n"
 "   --first         prints all occurance to stdout\n"
@@ -113,35 +113,30 @@ int main(int argc, char *argv[])
 
 #endif
 
-    bool flag = false;
-
     if (argc < 2 ) {
-
         fprintf(stderr, usage, argv[0]);
         exit(1);
+    }
 
-    } else if (argc == 3) {
+    bool flag_silent    = false;
+    bool flag_first     = false;
 
-        if (strcmp(argv[1], "--silent") == 0) {
-            fprintf(stderr, usage, argv[0]);
-            exit(1);
-        } else if (strcmp(argv[2], "--silent") == 0) 
-            flag = true;
+    for (int i = 0; i < argc; i++)
+    {
+        if (strcmp(argv[i], "--first") == 0)
+            flag_first = true;
+        else if (strcmp(argv[i], "--silent") == 0)
+            flag_silent = true;
     }
 
     char *csv_file_path = argv[1];
     str_t *csv_file     = str_read_file_to_str(csv_file_path);
     CSV csv             = csv_init(csv_file);
 
-    for (int i = 0; i < argc; i++)
-    {
-        if (strcmp(argv[i], "--first") == 0) {
-            parse_csv_get_first_occurance(&csv, flag);
-            break;
-        } else { 
-            parse_csv_get_all_occurance(&csv, flag);
-            break;
-        }
+    if (flag_first == true) {
+        parse_csv_get_first_occurance(&csv, flag_silent);
+    } else { 
+        parse_csv_get_all_occurance(&csv, flag_silent);
     }
 
     csv_destroy(&csv);
