@@ -14,7 +14,8 @@ dbg_t debug = {0};
 const char* usage = 
 "USAGE: %s file.csv\n\n"
 "Flags:\n"
-"   --silent        prints only the password to stdout\n\n";
+"   --silent        prints only the password to stdout\n\n"
+"   --first         prints all occurance to stdout\n\n";
 
 
 
@@ -127,17 +128,20 @@ int main(int argc, char *argv[])
             flag = true;
     }
 
-
     char *csv_file_path = argv[1];
+    str_t *csv_file     = str_read_file_to_str(csv_file_path);
+    CSV csv             = csv_init(csv_file);
 
-    str_t *csv_file = str_read_file_to_str(csv_file_path);
-
-    CSV csv = csv_init(csv_file);
-
-    parse_csv_get_all_occurance(&csv, flag);
-    /*csv_print_all_entries(&csv);*/
-
-
+    for (int i = 0; i < argc; i++)
+    {
+        if (strcmp(argv[i], "--first") == 0) {
+            parse_csv_get_first_occurance(&csv, flag);
+            break;
+        } else { 
+            parse_csv_get_all_occurance(&csv, flag);
+            break;
+        }
+    }
 
     csv_destroy(&csv);
 
