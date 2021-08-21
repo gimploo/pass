@@ -15,7 +15,7 @@ const char* usage =
 "USAGE: %s <CSV_FILE> <FLAGS>\n\n"
 "Flags:\n"
 "   --silent        prints only the password to stdout\n"
-"   --first         prints all occurance to stdout\n"
+"   --first         prints the only the first occurance to stdout\n"
 "\n";
 
 
