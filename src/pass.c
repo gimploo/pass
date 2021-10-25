@@ -71,7 +71,7 @@ void parse_csv_get_all_occurance(CSV *csv, bool flag)
     str_t find = new_str(user_input);
 
     size_t line_num_array[csv->entries.entry_count];
-    stack_t stack = stack_init((void **)line_num_array, csv->entries.entry_count);
+    stack_t stack = stack_static_array_init((void **)line_num_array, ARRAY_LEN(line_num_array));
     csv_get_all_line_nums_of_string_restricted_to_a_header_field(csv, &stack, 1, &find);
 
 

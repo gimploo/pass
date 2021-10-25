@@ -7,7 +7,7 @@ debug: CCFLAGS += -DDEBUG
 debug: pass
 
 pass: 
-	$(CC) $(CCFLAGS) src/pass.c -o build/pass
+	$(CC) $(CCFLAGS) src/pass.c -o bin/pass
 
 clean:
-	rm -rf build/*
+	rm -rf bin/*
